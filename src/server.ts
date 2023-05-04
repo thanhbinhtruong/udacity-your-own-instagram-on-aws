@@ -31,7 +31,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   app.get("/filteredimage", async (req, res) => {
     let { image_url }: any = req.query;
     if (!image_url) {
-      return res.status(400).send("Bad Request");
+      return res.status(422).send("Unprocessable Content");
     } else {
       filterImageFromURL(image_url)
         .then((result) => {
@@ -39,7 +39,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
           res.on("finish", () => deleteLocalFiles([result]));
         })
         .catch((err) => {
-          res.status(400).send(err);
+          res.status(422).send(err);
         });
     }
   });
